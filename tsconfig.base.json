@@ -2,6 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "rootDir": ".",
+    "strictPropertyInitialization": false,
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
@@ -13,8 +14,13 @@
     "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "strict": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@alldrive/config": ["libs/config/src/index.ts"],
+      "@alldrive/dtos": ["libs/dtos/src/index.ts"]
+    }
   },
+  "include": ["types/env.d.ts"],
   "exclude": ["node_modules", "tmp"]
 }

@@ -1,0 +1,59 @@
+version: "3.8"
+
+services:
+  # frontend:
+  #   container_name: alldrive_frontend
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/frontend/Dockerfile
+  #   ports:
+  #     - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+  #   volumes:
+  #     - ./apps/frontend:/app/apps/frontend
+  #     - ./libs:/app/libs:ro
+  #     - ./node_modules:/app/node_modules:ro
+  #   networks:
+  #     - alldrive_network
+  # api:
+  #   container_name: alldrive_api
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/api/Dockerfile
+  #   ports:
+  #     - "${API_PORT}:${API_PORT}"
+  #   volumes:
+  #     - ./apps/api:/app/apps/api:ro
+  #     - ./libs:/app/libs:ro
+  #     - ./dist:/app/dist
+  #     - ./node_modules:/app/node_modules:ro
+  #   networks:
+  #     - alldrive_network
+  #   depends_on:
+  #     - db
+  db:
+    container_name: alldrive_db
+    image: postgres
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    networks:
+      - alldrive_network
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - alldrive_data:/var/lib/postgresql/data
+      - alldrive_migrations:/docker-entrypoint-initdb.d
+
+networks:
+  alldrive_network:
+
+volumes:
+  alldrive_data:
+  # This volume must be removed if you redeploy and/or change database driver, and want to run the migrations
+  alldrive_migrations:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./apps/api/src/db/orm/drizzle/migrations/postgresql
+      o: bind

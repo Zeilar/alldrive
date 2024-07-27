@@ -1,0 +1,30 @@
+{
+  "name": "api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/api/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "api:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "api:build:development"
+        },
+        "production": {
+          "buildTarget": "api:build:production"
+        }
+      }
+    },
+    "drizzle-kit": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "drizzle-kit generate --config apps/api/src/db/orm/drizzle/drizzle.config.ts"
+      }
+    }
+  }
+}
