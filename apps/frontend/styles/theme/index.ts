@@ -1,6 +1,11 @@
-import { type ThemeConfig, extendTheme } from "@chakra-ui/react";
+import { type ThemeConfig, extendTheme, defineStyleConfig } from "@chakra-ui/react";
 
 export const theme = extendTheme({
+  components: {
+    Button: defineStyleConfig({
+      defaultProps: { colorScheme: "green", variant: "outline" },
+    }),
+  },
   config: { initialColorMode: "dark" } satisfies ThemeConfig,
   fonts: {
     heading: `'Roboto', sans-serif`,

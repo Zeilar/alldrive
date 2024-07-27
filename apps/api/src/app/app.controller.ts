@@ -46,6 +46,9 @@ export class AppController {
     @Res() res: Response,
     @Param("externalId") externalId: string
   ) {
+    if (!(await this.drizzleService.fileExists(externalId))) {
+      return res.status(404).end();
+    }
     return res.json({
       isFilePasswordProtected: await this.drizzleService.isFilePasswordProtected(externalId),
     });
@@ -75,7 +78,7 @@ export class AppController {
         parts: 100,
         fields: 100,
         files: 100,
-        fileSize: 1000 * 1000 * 1000, // 1GB
+        fileSize: MAX_DB_SIZE / 5,
       },
     })
   )

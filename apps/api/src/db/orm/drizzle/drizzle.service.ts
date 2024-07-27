@@ -5,9 +5,7 @@ import { and, count, eq, isNotNull, lt } from "drizzle-orm";
 
 @Injectable()
 export class DrizzleService {
-  public constructor(
-    @Inject("DB") private readonly db: NodePgDatabase<typeof schema>
-  ) {}
+  public constructor(@Inject("DB") private readonly db: NodePgDatabase<typeof schema>) {}
 
   public async getFilesByExternalId(externalId: string) {
     return this.db.query.files.findFirst({
@@ -26,9 +24,7 @@ export class DrizzleService {
     expires: number,
     hashedPassword?: string
   ) {
-    await this.db
-      .insert(files)
-      .values({ externalId, size, expires, password: hashedPassword });
+    await this.db.insert(files).values({ externalId, size, expires, password: hashedPassword });
   }
 
   public async deleteFileById(externalId: string) {
@@ -52,6 +48,14 @@ export class DrizzleService {
       .select({ count: count() })
       .from(files)
       .where(and(eq(files.externalId, externalId), isNotNull(files.password)));
+    return result.count > 0;
+  }
+
+  public async fileExists(externalId: string): Promise<boolean> {
+    const [result] = await this.db
+      .select({ count: count() })
+      .from(files)
+      .where(eq(files.externalId, externalId));
     return result.count > 0;
   }
 }

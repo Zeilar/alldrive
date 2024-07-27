@@ -150,12 +150,12 @@ export function Dropzone({ apiHost }: DropzoneProps) {
       <Flex
         {...getRootProps()}
         cursor={acceptedFiles.length === 0 && fileRejections.length === 0 ? "pointer" : "auto"}
+        bgColor="gray.700"
         justifyContent="center"
         alignItems="center"
         border="2px dashed"
         borderColor={borderColor}
         height={350}
-        mb={4}
       >
         <input {...getInputProps()} />
         {acceptedFiles.length === 0 && fileRejections.length === 0 && (
@@ -219,13 +219,14 @@ export function Dropzone({ apiHost }: DropzoneProps) {
         )}
       </Flex>
       <Box>
-        <Box textAlign="center" w={200} m="auto">
-          {humanizeDuration(expires)}
-        </Box>
+        <Flex textAlign="center" justifyContent="space-between">
+          <Text>Expiration</Text>
+          <Text>{humanizeDuration(expires)}</Text>
+        </Flex>
         <Slider
           colorScheme="green"
           value={expires}
-          min={MAX_EXPIRATION / 30}
+          min={1000 * 60 * 5}
           max={MAX_EXPIRATION}
           step={MAX_EXPIRATION / 30}
           onChange={setExpires}
@@ -253,6 +254,7 @@ export function Dropzone({ apiHost }: DropzoneProps) {
         onClick={() => uploadMutation.mutate()}
         isLoading={uploadMutation.isLoading}
         leftIcon={<DownloadIcon style={{ rotate: "180deg" }} />} // For some reason only style tag works for rotation
+        isDisabled={acceptedFiles.length === 0}
       >
         Upload
       </Button>
