@@ -25,10 +25,7 @@ interface FileViewProps {
 
 export function FileView({ externalId, apiHost, initialIsLocked }: FileViewProps) {
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
-  const toast = useToast({
-    position: "top",
-    variant: "top-accent",
-  });
+  const toast = useToast({ position: "top", variant: "subtle" });
   const [isLocked, setIsLocked] = useState<boolean>(initialIsLocked);
   const searchParams = useSearchParams();
   const [password, setPassword] = useState<string>(searchParams.get("password") ?? "");
@@ -38,7 +35,12 @@ export function FileView({ externalId, apiHost, initialIsLocked }: FileViewProps
     async ({ password }) => {
       try {
         const response = await fetch(`${queryBasePath}/unlock?password=${password}`);
-        if (!response.ok) {
+        if (response.status === 404) {
+          toast({
+            title: "The file could not be found",
+            status: "error",
+          });
+        } else if (!response.ok) {
           toast({
             title: "Incorrect password",
             status: "error",
@@ -64,8 +66,14 @@ export function FileView({ externalId, apiHost, initialIsLocked }: FileViewProps
       <Heading as="h3" textAlign="center">
         The file is password protected
       </Heading>
-      <Stack spacing={4} w={300}>
-        <InputGroup>
+      <Stack spacing={2} direction="row">
+        <InputGroup
+          as="form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            unlockMutation.mutate({ password });
+          }}
+        >
           <Input
             focusBorderColor="green.200"
             value={password}
@@ -80,6 +88,7 @@ export function FileView({ externalId, apiHost, initialIsLocked }: FileViewProps
           </InputRightElement>
         </InputGroup>
         <Button
+          flexShrink={0}
           isDisabled={!password}
           isLoading={unlockMutation.isLoading}
           onClick={() => unlockMutation.mutate({ password })}
@@ -87,12 +96,12 @@ export function FileView({ externalId, apiHost, initialIsLocked }: FileViewProps
         >
           Unlock
         </Button>
-        <Link href="/" _hover={{ textDecor: "none" }}>
-          <Button w="100%" leftIcon={<ArrowBackIcon />}>
-            Go back
-          </Button>
-        </Link>
       </Stack>
+      <Link href="/" _hover={{ textDecor: "none" }}>
+        <Button w="100%" leftIcon={<ArrowBackIcon />}>
+          Go back
+        </Button>
+      </Link>
     </Stack>
   );
 }

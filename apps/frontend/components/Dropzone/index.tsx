@@ -61,7 +61,7 @@ export function Dropzone({ apiHost }: DropzoneProps) {
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
   const [expires, setExpires] = useState<number>(MAX_EXPIRATION / 2);
   const [progress, setProgress] = useState<number | null>(null);
-  const toast = useToast({ position: "top", variant: "top-accent" });
+  const toast = useToast({ position: "top", variant: "subtle" });
   const { push } = useRouter();
   const [password, setPassword] = useState<string>("");
   const { getRootProps, getInputProps, acceptedFiles, fileRejections, isDragAccept, isDragReject } =
