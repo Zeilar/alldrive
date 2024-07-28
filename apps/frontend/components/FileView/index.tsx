@@ -1,8 +1,7 @@
 "use client";
 
 import { API_GLOBAL_PREFIX } from "@alldrive/config";
-import { ArrowBackIcon, DownloadIcon, LockIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { Link } from "@chakra-ui/next-js";
+import { ArrowBackIcon, LockIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
   Button,
   Heading,
@@ -15,6 +14,8 @@ import {
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useMutation } from "react-query";
+import { DownloadView } from "../DownloadView";
+import { Link } from "@chakra-ui/next-js";
 
 interface FileViewProps {
   externalId: string;
@@ -54,49 +55,43 @@ export function FileView({ externalId, apiHost, initialIsLocked }: FileViewProps
     }
   );
 
+  if (!isLocked) {
+    return <DownloadView fileUrl={queryBasePath} />;
+  }
+
   return (
     <Stack spacing={4} alignItems="center">
       <Heading as="h3" textAlign="center">
-        {!isLocked ? "Your file is ready for download!" : "The file is password protected"}
+        The file is password protected
       </Heading>
       <Stack spacing={4} w={300}>
-        {isLocked && (
-          <InputGroup>
-            <Input
-              focusBorderColor="green.200"
-              value={password}
-              onChange={(e) => setPassword(e.target.value.trim())}
-              placeholder="Password"
-              type={!passwordVisible ? "password" : "text"}
-            />
-            <InputRightElement>
-              <Button onClick={() => setPasswordVisible((p) => !p)} variant="unstyled">
-                {!passwordVisible ? <ViewIcon /> : <ViewOffIcon />}
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-        )}
+        <InputGroup>
+          <Input
+            focusBorderColor="green.200"
+            value={password}
+            onChange={(e) => setPassword(e.target.value.trim())}
+            placeholder="Password"
+            type={!passwordVisible ? "password" : "text"}
+          />
+          <InputRightElement>
+            <Button onClick={() => setPasswordVisible((p) => !p)} variant="unstyled">
+              {!passwordVisible ? <ViewIcon /> : <ViewOffIcon />}
+            </Button>
+          </InputRightElement>
+        </InputGroup>
         <Button
-          isDisabled={isLocked && !password}
+          isDisabled={!password}
           isLoading={unlockMutation.isLoading}
-          onClick={isLocked ? () => unlockMutation.mutate({ password }) : undefined}
-          leftIcon={!isLocked ? <DownloadIcon /> : <LockIcon />}
+          onClick={() => unlockMutation.mutate({ password })}
+          leftIcon={<LockIcon />}
         >
-          {!isLocked ? <a href={`${queryBasePath}?password=${password}`}>Download</a> : "Unlock"}
+          Unlock
         </Button>
-        {!isLocked ? (
-          <Link href="/" _hover={{ textDecor: "none" }}>
-            <Button w="100%" leftIcon={<ArrowBackIcon />}>
-              Upload more
-            </Button>
-          </Link>
-        ) : (
-          <Link href="/" _hover={{ textDecor: "none" }}>
-            <Button leftIcon={<ArrowBackIcon />} w="100%">
-              Go back
-            </Button>
-          </Link>
-        )}
+        <Link href="/" _hover={{ textDecor: "none" }}>
+          <Button w="100%" leftIcon={<ArrowBackIcon />}>
+            Go back
+          </Button>
+        </Link>
       </Stack>
     </Stack>
   );
