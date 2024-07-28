@@ -18,6 +18,13 @@ export const theme = extendTheme({
         display: "flex",
         flexDirection: "column",
       },
+      "::selection": {
+        bgColor: "green.500",
+        color: "white",
+      },
+      "::placeholder": {
+        userSelect: "none",
+      },
     },
   },
 });
