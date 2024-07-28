@@ -68,7 +68,7 @@ export class AppService {
     }
   }
 
-  public checkPassword(password: string, encrypted: string) {
+  public checkPassword(password: string, encrypted: string): Promise<boolean> {
     return compare(password.trim(), encrypted.trim());
   }
 }

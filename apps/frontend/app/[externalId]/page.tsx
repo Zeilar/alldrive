@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import { FileView } from "../../components";
+import { DownloadView, FileView } from "../../components";
 import { API_GLOBAL_PREFIX } from "@alldrive/config";
 import { z } from "zod";
 import { notFound } from "next/navigation";
@@ -17,7 +17,8 @@ const queryBasePath = `${process.env.API_HOST}/${API_GLOBAL_PREFIX}/files`;
 
 export default async function Page({ params, searchParams }: Props) {
   const { externalId } = params;
-  const response = await fetch(`${queryBasePath}/${externalId}/is_protected`);
+  const filePath = `${queryBasePath}/${externalId}`;
+  const response = await fetch(`${filePath}/is_protected`);
   if (response.status === 404) {
     notFound();
   }
@@ -26,7 +27,7 @@ export default async function Page({ params, searchParams }: Props) {
     .parse(await response.json());
 
   if (!isFilePasswordProtected) {
-    return "new component here with only download button";
+    return <DownloadView fileUrl={filePath} />;
   }
 
   let isLocked = true;

@@ -12,6 +12,7 @@ import {
   Stack,
   useToast,
 } from "@chakra-ui/react";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useMutation } from "react-query";
 
@@ -28,7 +29,8 @@ export function FileView({ externalId, apiHost, initialIsLocked }: FileViewProps
     variant: "top-accent",
   });
   const [isLocked, setIsLocked] = useState<boolean>(initialIsLocked);
-  const [password, setPassword] = useState<string>("");
+  const searchParams = useSearchParams();
+  const [password, setPassword] = useState<string>(searchParams.get("password") ?? "");
   const queryBasePath = `${apiHost}/${API_GLOBAL_PREFIX}/files/${externalId}`;
   const unlockMutation = useMutation<unknown, unknown, { password: string }>(
     `file-unlock-${externalId}-${password}`,
@@ -83,7 +85,11 @@ export function FileView({ externalId, apiHost, initialIsLocked }: FileViewProps
           {!isLocked ? <a href={`${queryBasePath}?password=${password}`}>Download</a> : "Unlock"}
         </Button>
         {!isLocked ? (
-          <Button leftIcon={<ArrowBackIcon />}>Upload more</Button>
+          <Link href="/" _hover={{ textDecor: "none" }}>
+            <Button w="100%" leftIcon={<ArrowBackIcon />}>
+              Upload more
+            </Button>
+          </Link>
         ) : (
           <Link href="/" _hover={{ textDecor: "none" }}>
             <Button leftIcon={<ArrowBackIcon />} w="100%">

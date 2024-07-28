@@ -65,11 +65,15 @@ export class AppController {
       return res.status(404).end();
     }
     if (files.password == null) {
-      return res.json(files);
+      const fileStream = createReadStream(`${__dirname}/uploads/${externalId}.zip`);
+      return fileStream.pipe(res);
     }
     const result = await this.appService.checkPassword(z.string().parse(password), files.password);
+    if (!result) {
+      return res.status(403).end();
+    }
     const fileStream = createReadStream(`${__dirname}/uploads/${externalId}.zip`);
-    return result ? fileStream.pipe(res) : res.status(403).end();
+    return fileStream.pipe(res);
   }
 
   @UseInterceptors(
