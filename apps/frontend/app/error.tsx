@@ -15,7 +15,7 @@ export default function Error({ error }: Props) {
       <Heading as="h1">An unexpected error occurred</Heading>
       <Link href="/" _hover={{ textDecor: "none" }}>
         <Button width="fit-content" leftIcon={<ArrowBackIcon />}>
-          Return to home
+          Go back
         </Button>
       </Link>
     </Stack>

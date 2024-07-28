@@ -1,7 +1,8 @@
 "use client";
 
 import { API_GLOBAL_PREFIX } from "@alldrive/config";
-import { DownloadIcon, LockIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, DownloadIcon, LockIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { Link } from "@chakra-ui/next-js";
 import {
   Button,
   Heading,
@@ -56,7 +57,7 @@ export function FileView({ externalId, apiHost, initialIsLocked }: FileViewProps
       <Heading as="h3" textAlign="center">
         {!isLocked ? "Your file is ready for download!" : "The file is password protected"}
       </Heading>
-      <Stack spacing={2} w={300}>
+      <Stack spacing={4} w={300}>
         {isLocked && (
           <InputGroup>
             <Input
@@ -82,6 +83,15 @@ export function FileView({ externalId, apiHost, initialIsLocked }: FileViewProps
         >
           {!isLocked ? <a href={`${queryBasePath}?password=${password}`}>Download</a> : "Unlock"}
         </Button>
+        {!isLocked ? (
+          <Button leftIcon={<ArrowBackIcon />}>Upload more</Button>
+        ) : (
+          <Link href="/" _hover={{ textDecor: "none" }}>
+            <Button leftIcon={<ArrowBackIcon />} w="100%">
+              Go back
+            </Button>
+          </Link>
+        )}
       </Stack>
     </Stack>
   );

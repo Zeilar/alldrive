@@ -10,7 +10,7 @@ export default function NotFound() {
       <Heading as="h1">The file you&apos;re looking for could not be found.</Heading>
       <Link href="/" _hover={{ textDecor: "none" }}>
         <Button width="fit-content" leftIcon={<ArrowBackIcon />}>
-          Return to home
+          Go back
         </Button>
       </Link>
     </Stack>
