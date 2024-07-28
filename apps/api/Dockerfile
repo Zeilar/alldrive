@@ -6,12 +6,16 @@ COPY . .
 
 RUN npm i
 
+RUN npx nx build api
+
+RUN npx nx reset
+
 FROM node:alpine as main
 
 WORKDIR /app
 
 COPY --from=build /app .
 
-EXPOSE 5555
+EXPOSE ${API_PORT}
 
-CMD ["npx", "nx", "serve", "api"]
+CMD ["npx", "nx", "serve", "api", "--prod"]

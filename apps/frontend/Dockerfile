@@ -6,12 +6,16 @@ COPY . .
 
 RUN npm i
 
+RUN npx nx build frontend
+
+RUN npx nx reset
+
 FROM node:alpine as main
 
 WORKDIR /app
 
 COPY --from=build /app .
 
-EXPOSE 4444
+EXPOSE ${FRONTEND_PORT}
 
-CMD ["npx", "nx", "dev", "frontend", "-p", "4444"]
+CMD ["npx", "nx", "start", "frontend", "-p", "${FRONTEND_PORT}"]
