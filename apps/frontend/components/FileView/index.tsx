@@ -56,7 +56,7 @@ export function FileView({ externalId, apiHost, initialIsLocked }: FileViewProps
   );
 
   if (!isLocked) {
-    return <DownloadView fileUrl={queryBasePath} />;
+    return <DownloadView fileUrl={`${queryBasePath}?password=${password}`} />;
   }
 
   return (
