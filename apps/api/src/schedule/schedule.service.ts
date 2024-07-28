@@ -20,11 +20,9 @@ export class ScheduleService {
         return;
       }
       await Promise.all(
-        files.map(({ externalId }) =>
-          this.appService.deleteFilesByExternalId(externalId)
-        )
+        files.map(({ externalId }) => this.appService.deleteFilesByExternalId(externalId))
       );
-      this.logger.log(`Deleted ${files.length} expired files`);
+      this.logger.log(`Deleted ${files.length} expired files from the database`);
     } catch (error) {
       this.logger.error(
         "Failed deleting expired files",

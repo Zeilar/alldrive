@@ -56,7 +56,7 @@ export class AppService {
       const filePath = `${__dirname}/uploads/${externalId}.zip`;
       const fileExists = existsSync(filePath);
       if (!fileExists) {
-        this.logger.warn(`Failed to delete ${externalId} as it does not exist.`);
+        this.logger.warn(`Failed to delete ${filePath} as it does not exist.`);
         return;
       }
       await rm(filePath, { recursive: true });
