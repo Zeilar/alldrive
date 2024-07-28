@@ -8,8 +8,8 @@ export const theme = extendTheme({
   },
   config: { initialColorMode: "dark" } satisfies ThemeConfig,
   fonts: {
-    heading: `'Roboto', sans-serif`,
-    body: `'Roboto', sans-serif`,
+    heading: `"Roboto", sans-serif`,
+    body: `"Roboto", sans-serif`,
   },
   styles: {
     global: {

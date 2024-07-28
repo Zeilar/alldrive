@@ -24,9 +24,12 @@ export class AppService {
     if (password) {
       hashedPassword = await hash(password, 10);
     }
-    const path = `${__dirname}/uploads/${externalId}.zip`;
+    const uploadsPath = `${__dirname}/uploads`;
+    const path = `${uploadsPath}/${externalId}.zip`;
     try {
-      await mkdir(`${__dirname}/uploads`);
+      if (!existsSync(uploadsPath)) {
+        await mkdir(uploadsPath);
+      }
       const zip = archiver("zip", { zlib: { level: 9 } });
       zip.pipe(createWriteStream(path));
       files.forEach(({ buffer, originalname }) => {
