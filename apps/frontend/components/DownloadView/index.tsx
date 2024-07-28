@@ -22,7 +22,7 @@ export function DownloadView({ fileUrl }: DownloadViewProps) {
         </a>
         <Link href="/" _hover={{ textDecor: "none" }}>
           <Button w="100%" leftIcon={<ArrowBackIcon />}>
-            Upload more
+            Go back
           </Button>
         </Link>
       </Stack>
