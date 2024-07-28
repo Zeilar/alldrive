@@ -3,7 +3,7 @@ import { DrizzleService } from "../db/orm/drizzle/drizzle.service";
 import base58 from "base58-random";
 import { EXTERNAL_ID_LENGTH } from "@alldrive/config";
 import { compare, hash } from "bcrypt";
-import { rm } from "fs/promises";
+import { mkdir, rm } from "fs/promises";
 import archiver from "archiver";
 import { createWriteStream, existsSync } from "fs";
 
@@ -26,16 +26,19 @@ export class AppService {
     }
     const path = `${__dirname}/uploads/${externalId}.zip`;
     try {
-      await this.drizzleService.insertFile(externalId, size, expires, hashedPassword);
+      await mkdir(`${__dirname}/uploads`);
       const zip = archiver("zip", { zlib: { level: 9 } });
       zip.pipe(createWriteStream(path));
       files.forEach(({ buffer, originalname }) => {
         zip.append(buffer, { name: originalname });
       });
       await zip.finalize();
+      await this.drizzleService.insertFile(externalId, size, expires, hashedPassword);
       return externalId;
     } catch (error) {
-      await rm(path, { recursive: true });
+      if (existsSync(path)) {
+        await rm(path, { recursive: true });
+      }
       await this.drizzleService.deleteFileById(externalId);
       throw error;
     }

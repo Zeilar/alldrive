@@ -239,6 +239,7 @@ export function Dropzone({ apiHost }: DropzoneProps) {
       </Box>
       <InputGroup>
         <Input
+          focusBorderColor="green.200"
           value={password}
           onChange={(e) => setPassword(e.target.value.trim())}
           placeholder="Password (optional)"

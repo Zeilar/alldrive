@@ -1,8 +1,16 @@
 "use client";
 
 import { API_GLOBAL_PREFIX } from "@alldrive/config";
-import { DownloadIcon, LockIcon } from "@chakra-ui/icons";
-import { Button, Heading, Input, Stack, useToast } from "@chakra-ui/react";
+import { DownloadIcon, LockIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import {
+  Button,
+  Heading,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Stack,
+  useToast,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { useMutation } from "react-query";
 
@@ -13,6 +21,7 @@ interface FileViewProps {
 }
 
 export function FileView({ externalId, apiHost, initialIsLocked }: FileViewProps) {
+  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
   const toast = useToast({
     position: "top",
     variant: "top-accent",
@@ -49,11 +58,20 @@ export function FileView({ externalId, apiHost, initialIsLocked }: FileViewProps
       </Heading>
       <Stack spacing={2} w={300}>
         {isLocked && (
-          <Input
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-          />
+          <InputGroup>
+            <Input
+              focusBorderColor="green.200"
+              value={password}
+              onChange={(e) => setPassword(e.target.value.trim())}
+              placeholder="Password"
+              type={!passwordVisible ? "password" : "text"}
+            />
+            <InputRightElement>
+              <Button onClick={() => setPasswordVisible((p) => !p)} variant="unstyled">
+                {!passwordVisible ? <ViewIcon /> : <ViewOffIcon />}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
         )}
         <Button
           _disabled={{ pointerEvents: "none", opacity: 0.65 }}
