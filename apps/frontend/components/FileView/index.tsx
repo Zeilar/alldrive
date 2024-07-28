@@ -75,7 +75,6 @@ export function FileView({ externalId, apiHost, initialIsLocked }: FileViewProps
           </InputGroup>
         )}
         <Button
-          _disabled={{ pointerEvents: "none", opacity: 0.65 }}
           isDisabled={isLocked && !password}
           isLoading={unlockMutation.isLoading}
           onClick={isLocked ? () => unlockMutation.mutate({ password }) : undefined}
