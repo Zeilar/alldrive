@@ -11,7 +11,7 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/frontend"
+        "outputPath": "dist/apps/frontend"
       }
     }
   }

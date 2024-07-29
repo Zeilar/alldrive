@@ -8,14 +8,15 @@ RUN npm i
 
 RUN npx nx build api
 
-RUN npx nx reset
-
 FROM node:alpine as main
 
 WORKDIR /app
 
-COPY --from=build /app .
+COPY --from=build /app/dist/apps/api .
+COPY --from=build /app/.env .
+
+RUN npm i -g dotenv-cli
 
 EXPOSE ${API_PORT}
 
-CMD ["node", "dist/apps/api/main.js"]
+CMD ["dotenv", "-e", ".env", "--", "node", "main.js"]

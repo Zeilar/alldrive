@@ -16,10 +16,7 @@
         "name": "next"
       }
     ],
-    "types": [
-      "jest",
-      "node"
-    ]
+    "types": ["jest", "node"]
   },
   "include": [
     "**/*.ts",
@@ -31,12 +28,8 @@
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "../../types/api-env.d.ts",
-    "../../dist/frontend/.next/types/**/*.ts"
+    "../../dist/frontend/.next/types/**/*.ts",
+    "ci.mjs"
   ],
-  "exclude": [
-    "node_modules",
-    "jest.config.ts",
-    "**/*.spec.ts",
-    "**/*.test.ts"
-  ]
+  "exclude": ["node_modules", "jest.config.ts", "**/*.spec.ts", "**/*.test.ts"]
 }
