@@ -80,5 +80,6 @@ jobs:
             echo "DB_USER=${{ secrets.DB_USER }}" >> .env
             docker pull zeilar/alldrive_frontend:latest
             docker pull zeilar/alldrive_api:latest
-            docker-compose restart
+            docker-compose down
+            docker-compose up -d
           EOF
