@@ -4,14 +4,13 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm i
-
-RUN npx nx build api
+RUN npm i && npx nx build api && cd dist/apps/api && npm i
 
 FROM node:alpine as main
 
 WORKDIR /app
 
+COPY --from=build /app/node_modules .
 COPY --from=build /app/dist/apps/api .
 COPY --from=build /app/.env .
 

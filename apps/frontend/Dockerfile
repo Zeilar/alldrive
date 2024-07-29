@@ -4,9 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm i
-
-RUN npx nx build frontend
+RUN npm i && npx nx build frontend && cd dist/apps/frontend && npm i
 
 FROM node:alpine as main
 
