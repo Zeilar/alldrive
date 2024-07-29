@@ -32,8 +32,8 @@ jobs:
           echo "FRONTEND_PORT=${{ secrets.FRONTEND_PORT }}" >> .env
           docker build -t alldrive_frontend -f apps/frontend/Dockerfile .
 
-          - name: Build API image
-          run: |
+      - name: Build API image
+        run: |
           echo "API_PORT=${{ secrets.API_PORT }}" >> .env
           echo "FRONTEND_HOST=${{ secrets.FRONTEND_HOST }}" >> .env
           echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
