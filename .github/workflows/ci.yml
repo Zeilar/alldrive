@@ -18,9 +18,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      # The "--stop-agents-after" is optional, but allows idle agents to shut down once the "build" targets have been requested
-      - run: npx nx-cloud start-ci-run --distribute-on="5 linux-medium-js" --stop-agents-after="build"
-
       # Cache node_modules
       - uses: actions/setup-node@v3
         with:
@@ -64,7 +61,7 @@ jobs:
           docker tag alldrive_api:latest zeilar/alldrive_api:latest
           docker push zeilar/alldrive_api:latest
 
-      - name: Deploy container
+      - name: Deploy containers
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
@@ -72,8 +69,8 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh -o StrictHostKeyChecking=no root@angelin.dev << 'EOF'
-            docker pull zeilar/portfolio:latest
-            docker stop portfolio || true
-            docker rm portfolio || true
-            docker run -d --name portfolio -p 3000:3000 zeilar/portfolio:latest
+            cd repositories/alldrive
+            docker pull zeilar/alldrive_frontend:latest
+            docker pull zeilar/alldrive_api:latest
+            docker-compose restart
           EOF
