@@ -18,4 +18,4 @@ COPY --from=build /app .
 
 EXPOSE ${API_PORT}
 
-CMD ["npx", "nx", "serve", "api", "--prod"]
+CMD ["node", "dist/apps/api/main.js"]
