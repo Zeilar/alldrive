@@ -21,7 +21,7 @@ services:
     container_name: alldrive_db
     image: postgres
     ports:
-      - ":${DB_PORT}"
+      - "${DB_PORT}:${DB_PORT}"
     networks:
       - alldrive_network
     environment:
