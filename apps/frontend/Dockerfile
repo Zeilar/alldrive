@@ -16,6 +16,8 @@ COPY --from=build /app/dist/apps/frontend .
 COPY --from=build /app/.env .
 COPY --from=build /app/apps/frontend/ci.js .
 
+RUN npm i
+
 RUN npm i -g dotenv-cli
 
 RUN dotenv -e .env -- node ci.js
