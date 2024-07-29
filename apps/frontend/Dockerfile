@@ -12,7 +12,7 @@ FROM node:alpine as main
 
 WORKDIR /app
 
-COPY --from=build /app/dist/frontend .
+COPY --from=build /app/dist/apps/frontend .
 COPY --from=build /app/.env .
 COPY --from=build /app/apps/frontend/ci.js .
 
