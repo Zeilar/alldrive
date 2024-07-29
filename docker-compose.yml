@@ -6,10 +6,6 @@ services:
     image: zeilar/alldrive_frontend:latest
     ports:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
-    volumes:
-      - ./apps/frontend:/app/apps/frontend
-      - ./libs:/app/libs:ro
-      - ./node_modules:/app/node_modules:ro
     networks:
       - alldrive_network
   api:
@@ -17,11 +13,6 @@ services:
     image: zeilar/alldrive_api:latest
     ports:
       - "${API_PORT}:${API_PORT}"
-    volumes:
-      - ./apps/api:/app/apps/api:ro
-      - ./libs:/app/libs:ro
-      - ./dist:/app/dist
-      - ./node_modules:/app/node_modules:ro
     networks:
       - alldrive_network
     depends_on:
