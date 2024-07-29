@@ -3,7 +3,7 @@ version: "3.8"
 services:
   frontend:
     container_name: alldrive_frontend
-    image: zeilar/alldrive_frontend
+    image: zeilar/alldrive_frontend:latest
     ports:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     volumes:
@@ -14,7 +14,7 @@ services:
       - alldrive_network
   api:
     container_name: alldrive_api
-    image: zeilar/alldrive_api
+    image: zeilar/alldrive_api:latest
     ports:
       - "${API_PORT}:${API_PORT}"
     volumes:

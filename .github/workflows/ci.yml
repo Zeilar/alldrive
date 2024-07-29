@@ -69,6 +69,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh -o StrictHostKeyChecking=no root@angelin.dev << 'EOF'
             cd repositories/alldrive
+            rm .env
             echo "API_PORT=${{ secrets.API_PORT }}" >> .env
             echo "API_HOST=${{ secrets.API_HOST }}" >> .env
             echo "FRONTEND_PORT=${{ secrets.FRONTEND_PORT }}" >> .env
