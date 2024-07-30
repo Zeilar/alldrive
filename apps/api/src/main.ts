@@ -14,6 +14,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.setGlobalPrefix(API_GLOBAL_PREFIX);
   await app.listen(API_PORT);
+  Logger.log("HELLO WORLD");
   Logger.log(`🚀 Application is running on: ${await app.getUrl()}/${API_GLOBAL_PREFIX}`);
 }
 

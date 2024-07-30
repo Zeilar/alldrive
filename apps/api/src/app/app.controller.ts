@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Logger,
   Param,
   Post,
   Query,
@@ -95,7 +96,7 @@ export class AppController {
     const expires = z.number().max(MAX_EXPIRATION).parse(parseInt(body.expires));
     const totalSize = files.reduce((accumulated, { size }) => accumulated + size, 0);
     const currentDbSize = await this.drizzleService.totalDbSize();
-    console.log({ totalSize, currentDbSize, MAX_DB_SIZE });
+    Logger.log({ totalSize, currentDbSize, MAX_DB_SIZE });
     if (totalSize > MAX_DB_SIZE || currentDbSize + totalSize > MAX_DB_SIZE) {
       return res.status(413).end();
     }
